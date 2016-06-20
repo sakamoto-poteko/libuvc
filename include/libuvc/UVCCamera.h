@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <mutex>
+#include <condition_variable>
 
 #include "libuvc/libuvc.h"
 
@@ -31,6 +32,7 @@ private:
 
     std::queue<uvc_frame_t *>   _frame_queue;
     std::mutex                  _frame_queue_mutex;
+    mutable std::condition_variable _frame_queue_has_frame;
 
     void add_frame(uvc_frame_t *frame);
     static void stream_callback(uvc_frame_t *frame, void *user_ptr);
