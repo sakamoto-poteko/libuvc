@@ -74,7 +74,7 @@ void UVCCamera::stream_callback(uvc_frame_t *frame, void *user_ptr)
     cam->add_frame(frame);
 }
 
-void UVCCamera::add_frame(struct uvc_frame* frame)
+void UVCCamera::add_frame(uvc_frame_t *frame)
 {
     std::lock_guard<std::mutex> lock(_frame_queue_mutex);
     _frame_queue.push(frame);
