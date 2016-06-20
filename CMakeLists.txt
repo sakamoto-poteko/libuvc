@@ -17,10 +17,10 @@ set(libuvc_VERSION_PATCH 5)
 set(libuvc_VERSION ${libuvc_VERSION_MAJOR}.${libuvc_VERSION_MINOR}.${libuvc_VERSION_PATCH})
 
 find_library(LIBUSB_LIBRARY_NAMES usb-1.0
-	PATHS /opt/local/lib)
+        PATHS /opt/local/lib)
 
 find_path(LIBUSB_INCLUDE_DIR libusb-1.0/libusb.h
-	PATHS /opt/local/include)
+        PATHS /opt/local/include)
 
 # Try to find JPEG using a module or pkg-config. If that doesn't work, search for the header.
 find_package(jpeg QUIET)
@@ -35,11 +35,11 @@ endif()
 SET(CMAKE_C_FLAGS_DEBUG "-g -DUVC_DEBUGGING")
 
 SET(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/libuvc" CACHE PATH
-	"Installation directory for CMake files")
+        "Installation directory for CMake files")
 
 SET(SOURCES src/ctrl.c src/ctrl-gen.c src/device.c src/diag.c
            src/frame.c src/init.c src/stream.c
-           src/misc.c)
+           src/misc.c src/UVCCamera.cpp)
 
 include_directories(
   ${libuvc_SOURCE_DIR}/include
@@ -64,11 +64,15 @@ else()
   message( FATAL_ERROR "Invalid build type ${CMAKE_BUILD_TARGET}" )
 endif()
 
+#CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+
 configure_file(include/libuvc/libuvc_config.h.in
   ${PROJECT_BINARY_DIR}/include/libuvc/libuvc_config.h @ONLY)
 
 set_target_properties(uvc PROPERTIES
-  PUBLIC_HEADER "include/libuvc/libuvc.h;${libuvc_BINARY_DIR}/include/libuvc/libuvc_config.h" )
+  PUBLIC_HEADER "include/libuvc/libuvc.h;include/libuvc/UVCCamera.h;${libuvc_BINARY_DIR}/include/libuvc/libuvc_config.h" )
 
 if(JPEG_FOUND)
   target_link_libraries (uvc ${JPEG_LIBRARIES})

@@ -24,3 +24,7 @@ in the build directory, or use a CMake GUI to make the desired changes.
 The documentation for `libuvc` can currently be found at https://int80k.com/libuvc/doc/.
 
 Happy hacking!
+
+## Diiference with original version
+
+class `UVCCamera` for C++.

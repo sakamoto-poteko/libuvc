@@ -1,6 +1,6 @@
 Software License Agreement (BSD License)
 
-Copyright (C) 2010-2015 Ken Tossell
+Copyright (C) 2010-2015 Ken Tossell, 2016 Sakamoto Poteko
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
