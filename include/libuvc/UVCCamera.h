@@ -59,6 +59,14 @@ public:
     int start_streaming();
     void stop_streaming();
     void clear_frames();
+    void set_exposure_mode(uint8_t mode)
+    {
+        uvc_set_ae_mode(_dev_h, mode);
+    }
+    void set_exposure_time(uint32_t time)
+    {
+        uvc_set_exposure_abs(_dev_h, time);
+    }
 
     uvc_frame_t* poll_frame();
 
