@@ -61,31 +61,23 @@ void UVCCamera::stop_streaming()
 
 uvc_frame_t* UVCCamera::poll_frame()
 {
-    uvc_frame_t* frame = nullptr;
-    std::unique_lock<std::mutex> lock(_frame_queue_mutex);
-    while (_frame_queue.empty()) {
-        _frame_queue_has_frame.wait(lock);
-    }
-    frame = _frame_queue.front();
-    _frame_queue.pop();
-    return frame;
+    return _frame_queue.pop();
 }
 
 void UVCCamera::stream_callback(uvc_frame_t *frame, void *user_ptr)
 {
     auto cam = static_cast<UVCCamera *>(user_ptr);
-    cam->add_frame(frame);
+    cam->_frame_queue.push(frame);
 }
 
 void UVCCamera::add_frame(uvc_frame_t *frame)
 {
-    std::lock_guard<std::mutex> lock(_frame_queue_mutex);
     _frame_queue.push(frame);
-    _frame_queue_has_frame.notify_all();
 }
 
 void UVCCamera::clear_frames()
 {
-    std::lock_guard<std::mutex> lock(_frame_queue_mutex);
-    std::queue<uvc_frame_t *>().swap(_frame_queue);
+    _frame_queue.clear();
 }
+
+FrameQueue::~FrameQueue() {}

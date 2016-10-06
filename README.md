@@ -25,6 +25,6 @@ The documentation for `libuvc` can currently be found at https://int80k.com/libu
 
 Happy hacking!
 
-## Diiference with original version
+## Diference with original version
 
 class `UVCCamera` for C++.
